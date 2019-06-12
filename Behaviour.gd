@@ -15,62 +15,57 @@ func simulate(_x: int, _y: int):
 	y = _y;
 	
 	if not stationary:
-		simulate_support();
 		simulate_density();
 
 func simulate_density():
-	var down = relative(0, 1);
+	if density > 0:
+		var down = relative(0, 1);
 	
-	if down:
-		if density > down.behaviour.density and not down.behaviour.stationary:
+		if (
+			(down and density > down.behaviour.density and not down.behaviour.stationary) or
+			(not down and density > 0)
+		):
 			move_to(x, y + 1);
-	else:
-		if density > 0:
-			move_to(x, y + 1);
-	
-	if density < 0:
+		else:
+			simulate_support();
+	elif density < 0:
 		var up = relative(0, -1);
 		
 		if not up:
 			move_to(x, y - 1);
+		else:
+			simulate_support();
 
 func simulate_support():
-	var up = relative(0, -1);
-	var down = relative(0, 1);
+	var no_support = { 0: true, 1: true, 2: true, 3: true };
 	
-	if (
-		((not up and density >= 0) or (up and (density >= up.behaviour.density or up.behaviour.stationary))) and
-		((not down and density <= 0) or (down and (density <= down.behaviour.density or down.behaviour.stationary)))
-	):
-		var no_support = { 0: true, 1: true, 2: true, 3: true };
-		
-		for i in range(support + 1):
-			for corner_i in range(4):
-				if no_support.has(corner_i):
-					var corner = match_corner(corner_i);
-					var corner_x = int(x + corner[0]);
-					var corner_y = int(y + corner[1] * i);
+	for i in range(support + 1):
+		for corner_i in range(4):
+			if no_support.has(corner_i):
+				var corner = match_corner(corner_i);
+				var corner_x = int(x + corner[0]);
+				var corner_y = int(y + corner[1] * i);
+				
+				if within(corner_x, corner_y):
+					var dust = main.dusts[corner_x][corner_y];
 					
-					if within(corner_x, corner_y):
-						var dust = main.dusts[corner_x][corner_y];
-						
-						if dust:
-							if (
-								(corner[1] > 0 and dust.behaviour.density >= density) or
-								(corner[1] < 0 and dust.behaviour.density <= density) or
-								dust.behaviour.stationary
-							):
-								no_support.erase(corner_i);
-						elif (corner[1] > 0 and density <= 0) or (corner[1] < 0 and density >= 0):
+					if dust:
+						if (
+							(corner[1] > 0 and dust.behaviour.density >= density) or
+							(corner[1] < 0 and dust.behaviour.density <= density) or
+							dust.behaviour.stationary
+						):
 							no_support.erase(corner_i);
+					elif (corner[1] > 0 and density <= 0) or (corner[1] < 0 and density >= 0):
+						no_support.erase(corner_i);
+	
+	if no_support.keys().size() > 0:
+		var corner_i = no_support.keys()[floor(randf() * no_support.keys().size())];
+		var corner = match_corner(corner_i);
+		var corner_x = int(x + corner[0]);
+		var corner_y = y;
 		
-		if no_support.keys().size() > 0:
-			var corner_i = no_support.keys()[floor(randf() * no_support.keys().size())];
-			var corner = match_corner(corner_i);
-			var corner_x = int(x + corner[0]);
-			var corner_y = y;
-			
-			move_to(corner_x, corner_y);
+		move_to(corner_x, corner_y);
 
 func match_corner(corner_i):
 	match corner_i:
@@ -97,12 +92,7 @@ func move_to(to_x: int, to_y: int):
 			main.dusts[x][y] = to;
 		else:
 			main.dusts[x][y] = null;
-		
-		"""if y > 0:
-			var affected = main.dusts[x][y - 1];
-			if affected:
-				affected.behaviour.simulate(x, y - 1);"""
-			
+	
 	x = to_x;
 	y = to_y;
 
