@@ -8,39 +8,25 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "Reference",
-"class": "Dust",
-"language": "GDScript",
-"path": "res://Dust.gd"
-}, {
-"base": "Node",
-"class": "Type",
-"language": "GDScript",
-"path": "res://Type.gd"
-} ]
+_global_script_classes=[  ]
 _global_script_class_icons={
-"Dust": "",
-"Type": ""
+
 }
 
 [application]
 
 config/name="Dust"
-run/main_scene="res://types.tscn"
+run/main_scene="res://game.tscn"
 config/icon="res://icon.png"
-
-[autoload]
-
-main="*res://main.gd"
 
 [display]
 
-window/size/width=1280
-window/size/height=720
+window/size/width=675
+window/size/height=900
 window/handheld/orientation="sensor"
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
 
 [rendering]
 
 environment/default_clear_color=Color( 0, 0, 0, 1 )
-environment/default_environment="res://default_env.tres"

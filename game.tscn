@@ -1,48 +1,26 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://game.gd" type="Script" id=1]
-[ext_resource path="res://gui/current_element/current_element.gd" type="Script" id=2]
-[ext_resource path="res://gui/current_element/color.gd" type="Script" id=3]
-[ext_resource path="res://dusts.gd" type="Script" id=4]
+[ext_resource path="res://styles/hotbar.tres" type="StyleBox" id=1]
+[ext_resource path="res://scripts/hotbar.gd" type="Script" id=2]
 
-[sub_resource type="GDScript" id=1]
-script/source = "extends Control
-
-func _ready():
-	rect_size = get_viewport().size;"
-
-[node name="game" type="Node2D"]
-script = ExtResource( 1 )
-current_element_node_path = NodePath("gui/ current_element")
+[node name="game" type="Node"]
 
 [node name="gui" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 2
-script = SubResource( 1 )
 
-[node name=" current_element" type="Control" parent="gui"]
-margin_right = 200.0
-margin_bottom = 50.0
+[node name="hotbar" type="Panel" parent="gui"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -150.0
+margin_top = -120.0
+margin_right = 150.0
+margin_bottom = -20.0
+custom_styles/panel = ExtResource( 1 )
 script = ExtResource( 2 )
-color_node_path = NodePath("../../gui/ current_element/color")
-name_node_path = NodePath("../../gui/ current_element/name")
 
-[node name="color" type="Button" parent="gui/ current_element"]
+[node name="HBoxContainer" type="HBoxContainer" parent="gui/hotbar"]
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 50.0
-focus_mode = 0
-enabled_focus_mode = 0
-script = ExtResource( 3 )
-game_node_path = NodePath("../../..")
-
-[node name="name" type="Label" parent="gui/ current_element"]
-anchor_bottom = 1.0
-margin_left = 50.0
-margin_right = 200.0
-text = "Element"
-
-[node name="dusts" type="Node2D" parent="."]
-position = Vector2( 65.8639, 71.3543 )
-script = ExtResource( 4 )
-[connection signal="pressed" from="gui/ current_element/color" to="gui/ current_element/color" method="_on_color_pressed"]
