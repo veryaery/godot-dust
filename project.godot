@@ -16,8 +16,12 @@ _global_script_class_icons={
 [application]
 
 config/name="Dust"
-run/main_scene="res://game.tscn"
+run/main_scene="res://types.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+main="*res://scripts/main.gd"
 
 [display]
 
