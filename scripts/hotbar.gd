@@ -1,5 +1,9 @@
 extends Panel
 
+signal select;
+
+var Type = preload("res://scripts/Type.gd");
+
 const swipe_length = 0.3;
 
 var type_button = preload("res://ui_components/type_button.tscn");
@@ -18,14 +22,20 @@ func _ready():
 		var type = types[i];
 		
 		container.add_child(button);
-		button.change_icon(load("res://icons/{0}.png".format([ type.id ])));
-		button.connect("pressed", self, "_pressed");
+		button.change_icon(type);
+		button.connect("pressed", self, "_on_pressed");
 		
 		buttons.append(button);
 		button_types.append(type);
 	_select(0);
 
-func _pressed(button):
+func change_selected_type(type: Type):
+	var button = buttons[selected];
+	
+	button_types[selected] = type;
+	button.change_icon(type);
+
+func _on_pressed(button):
 	_select(button.get_index());
 
 func _select(i: int):
@@ -37,6 +47,7 @@ func _select(i: int):
 	
 	button.change_style(true);
 	selected = i;
+	emit_signal("select");
 
 func _input(event):
 	var i = event.index if event.get_property_list().has("index") else 0;

@@ -15,33 +15,39 @@ script = ExtResource( 1 )
 id = "dust"
 color = Color( 1, 0.8, 0.6, 1 )
 icon = ExtResource( 2 )
+description = "A light and flamable dust"
 
 [node name="Wood" type="Node" parent="."]
 script = ExtResource( 1 )
 id = "wood"
 color = Color( 0.45098, 0.301961, 0.14902, 1 )
 icon = ExtResource( 3 )
+description = "A flamable material"
 
 [node name="Water" type="Node" parent="."]
 script = ExtResource( 1 )
 id = "water"
 color = Color( 0.4, 0.6, 1, 1 )
 icon = ExtResource( 4 )
+description = "A liquid that can extinguish Fire and turn into Steam"
 
 [node name="Steam" type="Node" parent="."]
 script = ExtResource( 1 )
 id = "steam"
 color = Color( 0.901961, 0.94902, 1, 1 )
 icon = ExtResource( 5 )
+description = "A gas that turns into Water"
 
 [node name="Fire" type="Node" parent="."]
 script = ExtResource( 1 )
 id = "fire"
 color = Color( 1, 0.2, 0.2, 1 )
 icon = ExtResource( 6 )
+description = "Lights flamable elements on Fire"
 
 [node name="Solid" type="Node" parent="."]
 script = ExtResource( 1 )
 id = "solid"
 color = Color( 0.501961, 0.501961, 0.501961, 1 )
 icon = ExtResource( 7 )
+description = "An indestructible material"
