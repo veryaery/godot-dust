@@ -6,6 +6,8 @@ var types = {};
 
 onready var types_node = $"../types";
 
+onready var test = load("res://lib/lib.gdns").new();
+
 func _ready():
 	_load_types();
 	get_tree().change_scene(game_scene);
